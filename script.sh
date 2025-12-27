@@ -79,6 +79,20 @@ install_app(){
     read -p "Appuyez sur Entrée pour continuer..."
 }
 
+conf_sys(){
+    if [ -f "./configure_system.sh" ]; then
+        chmod +x ./configure_system.sh
+        ./configure_system.sh
+        echo -e "${GREEN}Configuration du système terminée.${NC}"
+        echo -e "${YELLOW}Veuillez redémarrer votre système pour appliquer les modifications.${NC}"
+        read -p "Appuyez sur Entrée pour continuer..."
+    else
+        echo -e "${RED}Erreur: Le script configure_system.sh est introuvable.${NC}"
+        echo -e "${YELLOW}Veuillez créer ce script pour définir vos dépôts.${NC}"
+        read -p "Appuyez sur Entrée pour continuer..."
+    fi
+}
+
 menu(){
     echo -e "${BLUE} ╔════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${BLUE} ║${BOLD}                  MENU DE CONFIGURATION                     ${NC}${BLUE}║${NC}"
@@ -89,7 +103,7 @@ menu(){
     echo -e "${BLUE} ║${NC}  ${GREEN}[3]${NC} Mettre à jour le système                              ${BLUE}║${NC}"
     echo -e "${BLUE} ║${NC}  ${GREEN}[4]${NC} Configuration du système                              ${BLUE}║${NC}"
     echo -e "${BLUE} ║${NC}  ${GREEN}[5]${NC} Installation des depost, application et configuration ${BLUE}║${NC}"
-    echo -e "${BLUE} ║${NC}  ${RED}[6]${NC} Quitter                                               ${BLUE}║${NC}"
+    echo -e "${BLUE} ║${NC}  ${RED}[6]${NC} reboot                                                ${BLUE}║${NC}"
     echo -e "${BLUE} ║${NC}                                                            ${BLUE}║${NC}"
     echo -e "${BLUE} ╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
@@ -102,7 +116,7 @@ menu(){
         3) echo "Not implemented yet" ;;
         4) echo "Not implemented yet" ;;
         5) install_repo && install_app && echo "Not implemented yet" ;;
-        6) exit 0 ;;
+        6) reboot ;;
         *) echo -e "${RED}Invalid option${NC}" ;;
     esac
 }
