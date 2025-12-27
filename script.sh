@@ -119,9 +119,9 @@ menu(){
     case $choix in
         1) install_repo ;;
         2) install_app ;;
-        3) echo "Not implemented yet" ;;
-        4) echo "Not implemented yet" ;;
-        5) install_repo && install_app && echo "Not implemented yet" ;;
+        3) update ;;
+        4) conf_sys ;;
+        5) install_repo && install_app && conf_sys ;;
         6) reboot ;;
         *) echo -e "${RED}Invalid option${NC}" ;;
     esac
