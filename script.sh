@@ -79,6 +79,12 @@ install_app(){
     read -p "Appuyez sur Entrée pour continuer..."
 }
 
+update(){
+    dnf update -y
+    flatpak update -y
+    read -p "Appuyez sur Entrée pour continuer..."
+}
+
 conf_sys(){
     if [ -f "./configure_system.sh" ]; then
         chmod +x ./configure_system.sh
