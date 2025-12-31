@@ -39,7 +39,8 @@ install_repo(){
     if [ -f "./install_repos.sh" ]; then
         chmod +x ./install_repos.sh
         ./install_repos.sh
-        dnf update -y
+        apt-get update -y
+        echo -e "${GREEN}Installation des dépôts terminée.${NC}"
     else
         echo -e "${RED}Erreur: Le script install_repos.sh est introuvable.${NC}"
         echo -e "${YELLOW}Veuillez créer ce script pour définir vos dépôts.${NC}"
@@ -51,7 +52,7 @@ install_app(){
     # Installation des paquets depuis app.txt
     if [ -s "app.txt" ]; then
         echo -e "${YELLOW}Installation des applications listées dans app.txt...${NC}"
-        dnf install -y $(cat app.txt)
+        apt-get install -y $(cat app.txt)
     else
         echo -e "${YELLOW}Fichier app.txt manquant ou vide. Ignoré.${NC}"
     fi
@@ -59,7 +60,7 @@ install_app(){
     # Suppression des paquets depuis remove.txt
     if [ -s "remove.txt" ]; then
         echo -e "${YELLOW}Suppression des applications listées dans remove.txt...${NC}"
-        dnf remove -y $(cat remove.txt)
+        apt-get remove -y $(cat remove.txt)
     else
         echo -e "${YELLOW}Fichier remove.txt manquant ou vide. Ignoré.${NC}"
     fi
