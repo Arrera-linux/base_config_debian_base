@@ -2,11 +2,11 @@
 
 # Base Config
 
-This project aims to provide a modular base for creating environment installation and configuration scripts on Linux (specifically Red Hat-based distributions). It automates the installation of repositories, packages, Flatpak applications, and system configuration via a menu interface or simple configuration files.
+This project aims to provide a modular base for creating environment installation and configuration scripts on Linux (specifically Debian-based distributions). It automates the installation of repositories, packages, Flatpak applications, and system configuration via a menu interface or simple configuration files.
 
 ## Prerequisites
 
-*   **OS**: Fedora, Red Hat, and CentOS (Only for repositories)
+*   **OS**: Debian, Linux Mint, and Pop_OS! (Only for repositories)
 *   **Rights**: The main script must be run as **root** (administrator).
 
 ## Usage
@@ -26,15 +26,25 @@ This project aims to provide a modular base for creating environment installatio
 The script relies on several files present in the same directory to know what to install or configure. Here is how to write each of them.
 
 ### 1. `install_repos.sh`
-This file is a **Bash script** executed to install additional repositories (like RPM Fusion).
+This file is a **Bash script** executed to install additional repositories.
 
 *   **Format**: Standard shell script.
 *   **Example**:
     ```bash
     #!/bin/bash
-    echo "Installing RPM Fusion repositories..."
-    dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-    dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    echo "Installing additional repositories..."
+    
+    # Add Debian Backports
+    echo "Adding Debian Backports..."
+    apt-add-repository -y "deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free"
+    
+    # Add third-party repositories (example: Docker)
+    echo "Adding Docker repository..."
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+    apt-add-repository -y "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    
+    # Update package list
+    apt-get update
     ```
 
 ### 2. `app.txt` & `remove.txt`

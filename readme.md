@@ -2,11 +2,11 @@
 
 # Base Config 
 
-Ce projet a pour but de fournir une base modulaire pour créer des scripts d'installation et de configuration d'environnement sur Linux (spécifiquement distribution base sur Redhat). Il permet d'automatiser l'installation de dépôts, de paquets, d'applications Flatpak et la configuration système via une interface menu ou des fichiers de configuration simples.
+Ce projet a pour but de fournir une base modulaire pour créer des scripts d'installation et de configuration d'environnement sur Linux (spécifiquement distribution base sur Debian). Il permet d'automatiser l'installation de dépôts, de paquets, d'applications Flatpak et la configuration système via une interface menu ou des fichiers de configuration simples.
 
 ## Prérequis
 
-*   **OS** : Fedora, Redhat et Centos (Uniquement pour les dépôts)
+*   **OS** : Debian, Linux MINT et Pop_OS! (Uniquement pour les dépôts)
 *   **Droits** : Le script principal doit être exécuté en tant que **root** (administrateur).
 
 ## Utilisation
@@ -32,9 +32,19 @@ Ce fichier est un **script Bash** exécuté pour installer les dépôts supplém
 *   **Exemple** :
     ```bash
     #!/bin/bash
-    echo "Installation des dépôts RPM Fusion..."
-    dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-    dnf install -y https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+    echo "Installation des dépôts supplémentaires..."
+    
+    # Ajouter Debian Backports
+    echo "Ajout de Debian Backports..."
+    apt-add-repository -y "deb http://deb.debian.org/debian $(lsb_release -cs)-backports main contrib non-free"
+    
+    # Ajouter des dépôts tiers (exemple: Docker)
+    echo "Ajout du dépôt Docker..."
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+    apt-add-repository -y "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+    
+    # Mettre à jour la liste des paquets
+    apt-get update
     ```
 
 ### 2. `app.txt` & `remove.txt`
@@ -73,6 +83,4 @@ Ce fichier est un **script Bash** exécuté à la fin pour appliquer des configu
     echo "Configuration de Git..."
     git config --system user.name "MonNom"
     
-    echo "Nettoyage..."
-    dnf clean all
     ```
